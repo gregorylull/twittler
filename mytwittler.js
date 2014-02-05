@@ -15,35 +15,65 @@ $(document).ready(function(){
 });
 */
 
+// returns a jQuery DIV obj containing a username, their message, and time
 function msgOutput (username, msg, timeCreated) {
-    
-    var $msgContainer = $('<div></div>').addClass('messageContainer');
-    var $user = $('<div></div>').addClass(username).text(username);
-    var $message = $('<p></p>').addClass('message').text(msg);
-    var $time = $('<time></time>').addClass('time').attr('datetime', timeCreated).text(timeCreated);
 
-    $user.prepend($message);
-    $msgContainer.prepend($user).append($time);
+    // USER NAME
+    var $user = $('<p></p>').addClass(username + ' username').text(username);
+
+    // MESSAGE
+    var $message = $('<p></p>').addClass('message').text(msg);
+
+    // TIME
+    var $time = $('<time></time>').addClass('time');
+    $time.attr('datetime', timeCreated).text(timeCreated);
+
+    // all information are children of $msgContainer, a jQuery DIV object
+    var $msgContainer = $('<div></div>').addClass('messageContainer');    
+    $msgContainer.append($user).append($message).append($time);
 
     return $msgContainer;
-    console.log($msgContainer);
 }
 
-$(document).ready(function() {
-    // add a button to show latest tweets
-    $('<button>').addClass('refresh').text('refresh tweets').prependTo($('body'));
+// does not return a value, calls function 'msgOutput' on each extracted msg
+function msgExtract (numberOfMsgs) {
+    // 10 messages are extracted by default
+    numberOfMsgs = numberOfMsgs || 10;
+    
+    var $newMsgs = streams.home.slice(-numberOfMsgs);
 
-    // create a container for user
-
-    $('.refresh').on('click', function () {
-	var $newMsgs = streams.home.slice(-10);
-
-	for (var i = 0; i < 10; i++) {
+        // iterates through each message, add
+	for (var i = 0; i < numberOfMsgs; i++) {
 	    var name = $newMsgs[i].user;
 	    var msg  = $newMsgs[i].message;
 	    var time = $newMsgs[i].created_at;
-	    $('body').append(msgOutput(name, msg, time));
-	}
+	    $('.allMessages').prepend(msgOutput(name, msg, time));
+	}    
+}
+
+$(document).ready(function() {
+    // add a refresh button to show latest tweets
+    $('<button>').addClass('refresh').text('refresh tweets').prependTo($('body'));
+
+    // add a counter to display current number of msgs and newly generated
+    $('<p></p>').addClass('current').appendTo($('body'));
+    $('<p></p>').addClass('newly').appendTo($('body'));
+
+    setInterval(function () {
+	$('.newly').text(streams.home.length - $('.current').text());
+    }, 200);
+
+    // add a div for message only, after button
+    $('<div></div>').addClass('allMessages').appendTo($('body'));
+
+    // initial population of page with already generated msgs
+    $('.current').text(streams.home.length);
+    msgExtract(streams.home.length);
+
+    // when the refresh button is clicked, the most recently generated msgs and
+    // their username + time stamp are extracted 
+    $('.refresh').on('click', function () {
+	msgExtract();
     });
       
 });
