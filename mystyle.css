@@ -1,0 +1,29 @@
+.allMessages {
+    background-color: #A0A0FF;
+    border: 1px solid black;
+    padding: 1em;
+}
+
+.username {
+    background-color: yellow;
+}
+
+.message {
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 16pt;
+}
+
+.time {
+    font-size: 10pt;
+    padding: 10px;
+}
+
+
+.messageContainer {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: lime;
+    margin: 20px;
+    width: 400px
+}
