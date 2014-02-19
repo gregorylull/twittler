@@ -46,13 +46,15 @@ var generateRandomTweet = function(){
   addTweet(tweet);
 };
 
-for(var i = 0; i < 10; i++){
+// changed value from 10 to 5
+for(var i = 0; i < 5; i++){
   generateRandomTweet();
 }
 
+// changed timeout from 1500 to 5000 (5 seconds)
 var scheduleNextTweet = function(){
   generateRandomTweet();
-  setTimeout(scheduleNextTweet, Math.random() * 1500);
+  setTimeout(scheduleNextTweet, Math.random() * 5000);
 };
 scheduleNextTweet();
 
