@@ -2,10 +2,18 @@
     background-color: #A0A0FF;
     border: 1px solid black;
     padding: 1em;
+    width:   450px;
+    float: left;
+}
+
+.followMessages {
+    float: left; 
+    padding: 1em;
 }
 
 .username {
     background-color: yellow;
+    padding: 5px;
 }
 
 .message {
@@ -19,11 +27,13 @@
     padding: 10px;
 }
 
-
 .messageContainer {
     border: 1px solid black;
     border-radius: 10px;
     background-color: lime;
     margin: 20px;
-    width: 400px
+    width: 400px;
+
+    box-shadow: -3px 5px 5px 1px black;
+
 }
